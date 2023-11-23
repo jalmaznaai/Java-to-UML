@@ -1,4 +1,4 @@
-package TestCase;
+package SampleClasses;
 
 // Interface for a printable object
 interface Printable {
@@ -68,7 +68,7 @@ class Department {
     }
 }
 
-public class Test {
+public class Sample {
     public static void main(String[] args) {
         // Creating objects to demonstrate the relationships
         Student student1 = new Student("John Doe", 123);
