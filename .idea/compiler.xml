@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Java To UML" />
+        <module name="Java-To-UML" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Java To UML" target="18" />
+    </bytecodeTargetLevel>
   </component>
 </project>
