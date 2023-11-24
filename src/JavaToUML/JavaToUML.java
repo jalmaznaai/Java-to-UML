@@ -17,7 +17,7 @@ public class JavaToUML
 
     public boolean hasCorrectSyntax()
     {
-        @// TODO: 11/23/2023  
+        return true;
     }
 }
 
