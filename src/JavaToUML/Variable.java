@@ -7,5 +7,13 @@ public class Variable
     private String accessLevel;
     private boolean isStatic;
     private boolean isFinal;
+
+    public Variable(String varName, String type, String accessLevel, boolean isStatic, boolean isFinal) {
+        this.varName = varName;
+        this.type = type;
+        this.accessLevel = accessLevel;
+        this.isStatic = isStatic;
+        this.isFinal = isFinal;
+    }
 }
 
