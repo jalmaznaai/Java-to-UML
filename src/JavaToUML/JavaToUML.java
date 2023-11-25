@@ -21,20 +21,26 @@ public class JavaToUML
         return FilenameUtils.getExtension(file.getName()).equals("java");
     }
 
-    public boolean hasCorrectSyntax()
+    public boolean hasCorrectSyntax(ParseResult<CompilationUnit> result)
     {
         return true;
     }
 
+    // TODO: 11/25/2023 make a getInfo method to store info in a ClassInfo Object
+
     public static void main(String[] args) throws FileNotFoundException
     {
-        File file = new File("C:\\Users\\aaaaa\\Documents\\Git\\School\\Software Engineering 1\\Project\\" +
-                "Java To UML\\src\\SampleClasses\\Sample.java");
+        File file = new File("C:\\Users\\aaaaa\\Documents\\Git\\School\\Software Engineering 1\\Project\\Java To UML\\Sample.java");
 
         JavaParser javaParser = new JavaParser();
-        ParseResult<CompilationUnit> cu = javaParser.parse(file);
+        ParseResult<CompilationUnit> result = javaParser.parse(file);
 
-        System.out.println(cu.isSuccessful());
+        System.out.println(result.isSuccessful());
+        CompilationUnit cu = result.getResult().get();
+
+
+
+
     }
 }
 

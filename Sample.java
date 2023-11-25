@@ -1,4 +1,4 @@
-package SampleClasses;
+package BrokenSampleClasses;
 
 // Interface for a printable object
 interface Printable {
