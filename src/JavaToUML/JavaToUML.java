@@ -55,11 +55,11 @@ public class JavaToUML
         return result;
     }
 
-    // TODO: 11/25/2023 make a getInfo method to store info in a ClassInfo Object
+
     public static HashMap<String, ClassInfo> getInfo(CompilationUnit cu)
     {
         HashMap<String, ClassInfo> classes = new HashMap<String, ClassInfo>();
-        ArrayList<Class<ClassOrInterfaceDeclaration>> classesToParse = (ArrayList) cu.findAll(ClassOrInterfaceDeclaration.class);
+//        ArrayList<Class<ClassOrInterfaceDeclaration>> classesToParse = (ArrayList) cu.findAll(ClassOrInterfaceDeclaration.class);
 
         cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classOrInterface -> {
             // Extract class information

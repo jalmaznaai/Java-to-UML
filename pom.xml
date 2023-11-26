@@ -35,7 +35,12 @@
             <version>3.14.0</version>
         </dependency>
 
-    </dependencies>
 
+        <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml-mit</artifactId>
+            <version>1.2023.12</version>
+        </dependency>
+    </dependencies>
 </project>
 
