@@ -146,6 +146,8 @@ public class JavaToUML
 
         HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
 
+        int x = 0;
+
 
 
 

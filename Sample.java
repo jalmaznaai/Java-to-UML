@@ -55,6 +55,11 @@ class University {
         this.address = address;
         this.students = students;
     }
+
+    protected void printUni(String hello, String greeting, String guy)
+    {
+        int x = 0
+    }
 }
 
 // Department class with an association relationship with Student
@@ -66,6 +71,8 @@ class Department {
         this.departmentName = departmentName;
         this.students = students;
     }
+
+
 }
 
 public class Sample {
