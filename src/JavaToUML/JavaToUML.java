@@ -10,6 +10,7 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ParseResult;
 
@@ -30,6 +31,25 @@ public class JavaToUML
     public boolean hasCorrectSyntax(ParseResult<CompilationUnit> result)
     {
         return result.isSuccessful();
+    }
+
+    private static ArrayList<String> getAssociations(CompilationUnit cu, String targetClassName) {
+        ArrayList<String> result = new ArrayList<>();
+
+
+        cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classOrInterface -> {
+            // Iterate through fields in the class/interface
+            classOrInterface.findAll(FieldDeclaration.class).forEach(field -> {
+                // Check if the field type is the target class
+                if (field.getElementType() instanceof ClassOrInterfaceType &&
+                        ((ClassOrInterfaceType) field.getElementType()).getNameAsString().equals(targetClassName))
+                {
+                    result.add(classOrInterface.getNameAsString());
+                }
+            });
+        });
+
+        return result;
     }
 
     // TODO: 11/25/2023 make a getInfo method to store info in a ClassInfo Object
