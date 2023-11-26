@@ -1,5 +1,7 @@
 package JavaToUML;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -111,5 +113,11 @@ public class ClassInfo
     public ArrayList<MethodInfo> getMethods()
     {
         return methods;
+    }
+
+    public void addClassMethod(String methodName, String returnType, boolean isStatic, boolean isAbstract,
+                               String accessLevel, ArrayList<Pair<String, String>> parameters)
+    {
+        this.methods.add(new MethodInfo(methodName, returnType, isStatic, isAbstract, accessLevel, parameters, true));
     }
 }

@@ -15,7 +15,9 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ParseResult;
 
+
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class JavaToUML
 {
@@ -111,15 +113,20 @@ public class JavaToUML
                 boolean isStatic = method.isStatic();
                 boolean isAbstractMethod = method.isAbstract();
                 String methodAccessLevel = method.getAccessSpecifier().asString();
+                ArrayList<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
 
                 // Extract parameters
                 method.getParameters().forEach(parameter -> {
+                    String parameterType = parameter.getType().asString();
                     String parameterName = parameter.getNameAsString();
-                    Type parameterType = parameter.getType();
                     // Process parameter information
+                    parameters.add(Pair.of(parameterType, parameterName));
                 });
 
-                // Process this information (association, composition, aggregation, etc.)
+                classes.get(className).addClassMethod(methodName, returnType, isStatic, isAbstractMethod,
+                        methodAccessLevel, parameters);
+
+                // Maybe Process this information (association, composition, aggregation, etc.)
             });
         });
 
