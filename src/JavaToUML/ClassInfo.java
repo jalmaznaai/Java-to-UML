@@ -23,4 +23,15 @@ public class ClassInfo
         this.classRelations = classRelations;
         this.methods = methods;
     }
+
+    public ClassInfo()
+    {
+        this.className = "";
+        this.isAbstract = false;
+        this.isInterface = false;
+        this.accessLevel = "";
+        this.classVariables = new ArrayList<Variable>();
+        this.classRelations = new ArrayList<Relation>();
+        this.methods = new ArrayList<MethodInfo>();
+    }
 }

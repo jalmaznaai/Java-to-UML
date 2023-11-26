@@ -9,6 +9,5 @@ public class finalVariable extends Variable
     {
         super(varName, type, accessLevel, isStatic, isFinal);
         this.finalValue = finalValue.toString();
-
     }
 }
