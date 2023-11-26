@@ -4,11 +4,23 @@ import java.util.ArrayList;
 
 public class ClassInfo
 {
-    private String ClassName;
+    private String className;
     private boolean isAbstract;
     private boolean isInterface;
     private String accessLevel;
     private ArrayList<Variable> classVariables;
     private ArrayList<Relation> classRelations;
+    private ArrayList<MethodInfo> methods;
 
+    public ClassInfo(String className, boolean isAbstract, boolean isInterface, String accessLevel, ArrayList<Variable>
+            classVariables, ArrayList<Relation> classRelations, ArrayList<MethodInfo> methods)
+    {
+        this.className = className;
+        this.isAbstract = isAbstract;
+        this.isInterface = isInterface;
+        this.accessLevel = accessLevel;
+        this.classVariables = classVariables;
+        this.classRelations = classRelations;
+        this.methods = methods;
+    }
 }
