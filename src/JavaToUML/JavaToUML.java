@@ -3,6 +3,7 @@ package JavaToUML;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -53,9 +54,9 @@ public class JavaToUML
     }
 
     // TODO: 11/25/2023 make a getInfo method to store info in a ClassInfo Object
-    public static ArrayList<ClassInfo> getInfo(CompilationUnit cu)
+    public static HashMap<String, ClassInfo> getInfo(CompilationUnit cu)
     {
-        ArrayList<ClassInfo> classes = new ArrayList<ClassInfo>();
+        HashMap<String, ClassInfo> classes = new HashMap<String, ClassInfo>();
         ArrayList<Class<ClassOrInterfaceDeclaration>> classesToParse = (ArrayList) cu.findAll(ClassOrInterfaceDeclaration.class);
 
         cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classOrInterface -> {
@@ -65,27 +66,41 @@ public class JavaToUML
             boolean isInterface = classOrInterface.isInterface();
             String accessLevel = classOrInterface.getAccessSpecifier().asString();
 
+            classes.put(className, new ClassInfo(className, isAbstract, isInterface, accessLevel));
+
+
 
             // Extract superclasses and interfaces
             classOrInterface.getExtendedTypes().forEach(type -> {
-                // Process superclass (inheritance)
+                classes.get(className).getClassRelations().put(type.getNameAsString(), "Extends");
             });
 
             classOrInterface.getImplementedTypes().forEach(type -> {
-                // Process interface (implementation)
+                classes.get(className).getClassRelations().put(type.getNameAsString(), "Implements");
             });
 
             // Extract class variables
             classOrInterface.findAll(FieldDeclaration.class).forEach(field -> {
                 // Extract variable information
                 String variableName = field.getVariable(0).getNameAsString();
-                Type variableType = field.getVariable(0).getType();
+                String variableType = field.getVariable(0).getType().asString();
                 String variableAccessLevel = field.getAccessSpecifier().asString();
                 boolean isStatic = field.getModifiers().contains(Modifier.staticModifier());
                 boolean isFinal = field.getModifiers().contains(Modifier.finalModifier());
                 String fieldValue = (isFinal) ? field.getVariable(0).getInitializer().get().toString() : null;
 
-                // Process this information (association, composition, aggregation, etc.)
+                if(isFinal)
+                {
+                    classes.get(className).addFinalClassVariable(variableName, variableType, variableAccessLevel,
+                            isStatic, isFinal, fieldValue);
+                }
+                else
+                {
+                    classes.get(className).addClassVariable(variableName, variableType, variableAccessLevel,
+                            isStatic, isFinal);
+                }
+
+                // Maybe process this information (association, composition, aggregation, etc.)
             });
 
             // Extract methods
@@ -109,7 +124,7 @@ public class JavaToUML
         });
 
 
-        return new ArrayList<ClassInfo>();
+        return classes;
     }
 
     public static void main(String[] args) throws FileNotFoundException
@@ -122,7 +137,7 @@ public class JavaToUML
 
         CompilationUnit cu = result.getResult().get();
 
-        ArrayList<ClassInfo> classes = JavaToUML.getInfo(cu);
+        HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
 
 
 

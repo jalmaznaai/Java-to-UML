@@ -92,6 +92,17 @@ public class ClassInfo
         return classVariables;
     }
 
+    public void addClassVariable(String varName, String type, String accessLevel, boolean isStatic, boolean isFinal)
+    {
+        this.classVariables.add(new Variable(varName, type, accessLevel, isStatic, isFinal));
+    }
+
+    public void addFinalClassVariable(String varName, String type, String accessLevel, boolean isStatic,
+                                      boolean isFinal, Object finalValue)
+    {
+        this.classVariables.add(new FinalVariable(varName, type, accessLevel, isStatic, isFinal, finalValue));
+    }
+
     public HashMap<String, String> getClassRelations()
     {
         return classRelations;
