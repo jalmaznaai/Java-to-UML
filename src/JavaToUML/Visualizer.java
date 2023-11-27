@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Visualizer
@@ -85,6 +86,13 @@ public class Visualizer
             writer.write(parseClassType(currentClass.isAbstract(), currentClass.isInterface()) + " ");
             writer.write(className + " {");
             writer.newLine();
+
+            ArrayList<Variable> classVariables = currentClass.getClassVariables();
+
+            for(int i2 = 0; i < classVariables.size(); i++)
+            {
+
+            }
 
 
 
