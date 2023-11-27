@@ -7,13 +7,14 @@ import java.util.HashMap;
 // This class handles the class info that is set and stored.
 public class ClassInfo
 {
-    // the variables here are fairly self explanatory.
+    // the variables here are fairly self-explanatory.
     private String className;
     private boolean isAbstract;
     private boolean isInterface;
     private String accessLevel;
     private ArrayList<Variable> classVariables;
     private HashMap<String, String> classRelations;
+    private ArrayList<String> associations;
     private ArrayList<MethodInfo> methods;
     // This method acts as a baseline for a class with info to be added.
     public ClassInfo(String className, boolean isAbstract, boolean isInterface, String accessLevel, ArrayList<Variable>
@@ -26,6 +27,7 @@ public class ClassInfo
         this.classVariables = classVariables;
         this.classRelations = classRelations;
         this.methods = methods;
+        this.associations = new ArrayList<String>();
     }
     // This handles our main cases, as we want to be able to have the structures ready to insert data into.
     public ClassInfo(String className, boolean isAbstract, boolean isInterface, String accessLevel)
@@ -37,6 +39,7 @@ public class ClassInfo
         this.classVariables = new ArrayList<Variable>();
         this.classRelations = new HashMap<String, String>();
         this.methods = new ArrayList<MethodInfo>();
+        this.associations = new ArrayList<String>();
     }
     // This is a default constructor.
     public ClassInfo()
@@ -48,6 +51,7 @@ public class ClassInfo
         this.classVariables = new ArrayList<Variable>();
         this.classRelations = new HashMap<String, String>();
         this.methods = new ArrayList<MethodInfo>();
+        this.associations = new ArrayList<String>();
     }
     // Below are pretty much standard setters and getters for all the variables above.
     public String getClassName()
@@ -119,5 +123,28 @@ public class ClassInfo
                                String accessLevel, ArrayList<Pair<String, String>> parameters)
     {
         this.methods.add(new MethodInfo(methodName, returnType, isStatic, isAbstract, accessLevel, parameters, true));
+    }
+
+    public ArrayList<Relation> createRelationList()
+    {
+        ArrayList<Relation> relationList = new ArrayList<Relation>();
+
+        String[] keys = classRelations.keySet().toArray(new String[0]);
+
+        for (int i = 0; i < keys.length; i++)
+        {
+            relationList.add(new Relation(this.className, keys[i], this.classRelations.get(keys[i])));
+        }
+
+        return relationList;
+    }
+
+    public ArrayList<String> getAssociations()
+    {
+        return this.associations;
+    }
+    public void addAssociations(ArrayList<String> classes)
+    {
+        this.associations.addAll(classes);
     }
 }

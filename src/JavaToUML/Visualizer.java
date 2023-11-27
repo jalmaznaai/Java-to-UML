@@ -7,10 +7,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 // TODO: Add comments when complete.
 public class Visualizer
 {
@@ -74,6 +77,36 @@ public class Visualizer
             return "";
         }
     }
+
+    public static String parseRelation(String relation)
+    {
+        if(relation.equals("Implements"))
+        {
+            return " -[dashed]-|> ";
+        }
+        else if(relation.equals("Extends"))
+        {
+            return " --|> ";
+        }
+        else if(relation.equals("Is Associated By"))
+        {
+            return " <-- ";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public static void addAssociations(ArrayList<Relation> relations, ArrayList<String> classes, String targetClass)
+    {
+        for (int i = 0; i < classes.size(); i++)
+        {
+            relations.add(new Relation(targetClass, classes.get(i), "Is Associated By"));
+        }
+    }
+
+
     public static void makeImage(HashMap<String, ClassInfo> classes) throws IOException
     {
         LocalDateTime date = LocalDateTime.now();
@@ -101,10 +134,14 @@ public class Visualizer
         writer.newLine();
 
         String[] classNames = classes.keySet().toArray(new String[0]);
+        ArrayList<Relation> relations = new ArrayList<>();
         for(int i = 0; i < classNames.length; i++)
         {
             String className = classNames[i];
             ClassInfo currentClass = classes.get(className);
+            relations.addAll(currentClass.createRelationList());
+
+            addAssociations(relations, currentClass.getAssociations(), className);
 
             writer.write(parseAccessLevel(currentClass.getAccessLevel()));
             writer.write(parseClassType(currentClass.isAbstract(), currentClass.isInterface()) + " ");
@@ -157,6 +194,14 @@ public class Visualizer
         }
 
 
+        for (int i = 0; i < relations.size(); i++)
+        {
+            Relation currentRelation = relations.get(i);
+            writer.write(currentRelation.getClass1());
+            writer.write(parseRelation(currentRelation.getRelationType()));
+            writer.write(currentRelation.getClass2());
+            writer.newLine();
+        }
 
 
 
@@ -164,10 +209,16 @@ public class Visualizer
         writer.write("@enduml");
         writer.close();
         tempWriter.close();
+
+
+        SourceFileReader reader = new SourceFileReader(plantFile);
+        List<GeneratedImage> list = reader.getGeneratedImages();
+        // Generated files
+        File png = list.get(0).getPngFile();
     }
 
     public static void main(String[] args) throws IOException
     {
-        makeImage(new HashMap<String, ClassInfo>());
+//        makeImage(new HashMap<String, ClassInfo>());
     }
 }

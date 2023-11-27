@@ -79,7 +79,7 @@ public class JavaToUML
             // And save it into our hashmap for retrieval.
             classes.put(className, new ClassInfo(className, isAbstract, isInterface, accessLevel));
 
-
+            classes.get(className).addAssociations(getAssociations(cu, className));
 
             // These two lambda expressions handle cases where extended or implemented classes need to be stored.
             classOrInterface.getExtendedTypes().forEach(type -> {
