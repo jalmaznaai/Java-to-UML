@@ -175,6 +175,7 @@ public class JavaToUML
                         HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
                         int x = 0;
                         Visualizer.makeImage(classes);
+//                        System.out.println(Visualizer.getFileName() + ".png has been created in the Output folder.");
                         fileinput = false;
                     }
                 }
