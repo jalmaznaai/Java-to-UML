@@ -1,10 +1,12 @@
 package JavaToUML;
-
+// Welcome to the main file for our Java to UML converter.
+// This file encompasses the logic that represents us taking in a file, ensuring that it is a valid
+// syntax-correct java file, and then using javaparser to parse the code into AST.
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+// Obviously, we are importing javaparser to be able to use its functionality.
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
@@ -14,39 +16,43 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ParseResult;
-
-
+// We also import apache commons' IO and general packages in order to get filename utilities and
+// to be able to use a tuple pair data structure.
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class JavaToUML
 {
+    // This boolean checks to ensure the user input a file that exists (i.e., not a directory or incorrect filepath)
     public static boolean fileExists(File file)
     {
         return (file.exists() && file.isFile());
     }
-
+    // This boolean performs a check so that only .java files are accepted.
     public static boolean isJavaFile(File file)
     {
         return FilenameUtils.getExtension(file.getName()).equals("java");
     }
-
+    // This boolean makes sure that our inputted java file is syntax correct.
+    // It does so by taking the results parameter of javaparser's output.
     public boolean hasCorrectSyntax(ParseResult<CompilationUnit> result)
     {
         return result.isSuccessful();
     }
-
+    // This function allows for associations between classes to be found. It accepts a javaparser compilationunit
+    // and a target class name to search for associations.
     private static ArrayList<String> getAssociations(CompilationUnit cu, String targetClassName) {
         ArrayList<String> result = new ArrayList<>();
 
-
+        // Here, we set up a lambda expression to represent searching through all classes...
         cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classOrInterface -> {
-            // Iterate through fields in the class/interface
+            // Then iterates through the class' fields
             classOrInterface.findAll(FieldDeclaration.class).forEach(field -> {
-                // Check if the field type is the target class
+                // Then if we do find the target class name within the associations...
                 if (field.getElementType() instanceof ClassOrInterfaceType &&
                         ((ClassOrInterfaceType) field.getElementType()).getNameAsString().equals(targetClassName))
                 {
+                    // We add the class where the association was found to our associated classes.
                     result.add(classOrInterface.getNameAsString());
                 }
             });
@@ -55,24 +61,25 @@ public class JavaToUML
         return result;
     }
 
-
+    // Get info represents the main way that we grab the information related to classes such as name, abstract status, etc.
+    // We store this info in a hashmap in order to be able to retrieve it easily later.
     public static HashMap<String, ClassInfo> getInfo(CompilationUnit cu)
     {
         HashMap<String, ClassInfo> classes = new HashMap<String, ClassInfo>();
-//        ArrayList<Class<ClassOrInterfaceDeclaration>> classesToParse = (ArrayList) cu.findAll(ClassOrInterfaceDeclaration.class);
 
+        // For every class declaration in our javaparser AST...
         cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classOrInterface -> {
-            // Extract class information
+            // We obtain the relevent information for our class, such as name, abstract status, etc.
             String className = classOrInterface.getNameAsString();
             boolean isAbstract = classOrInterface.isAbstract();
             boolean isInterface = classOrInterface.isInterface();
             String accessLevel = classOrInterface.getAccessSpecifier().asString();
-
+            // And save it into our hashmap for retrieval.
             classes.put(className, new ClassInfo(className, isAbstract, isInterface, accessLevel));
 
 
 
-            // Extract superclasses and interfaces
+            // These two lambda expressions handle cases where extended or implemented classes need to be stored.
             classOrInterface.getExtendedTypes().forEach(type -> {
                 classes.get(className).getClassRelations().put(type.getNameAsString(), "Extends");
             });
@@ -81,16 +88,19 @@ public class JavaToUML
                 classes.get(className).getClassRelations().put(type.getNameAsString(), "Implements");
             });
 
-            // Extract class variables
+            // This lambda expression then grabs all of the information about the variables in a class...
             classOrInterface.findAll(FieldDeclaration.class).forEach(field -> {
                 // Extract variable information
                 String variableName = field.getVariable(0).getNameAsString();
                 String variableType = field.getVariable(0).getType().asString();
                 String variableAccessLevel = field.getAccessSpecifier().asString();
+                // Including static and final statuses...
                 boolean isStatic = field.getModifiers().contains(Modifier.staticModifier());
                 boolean isFinal = field.getModifiers().contains(Modifier.finalModifier());
+                // and a field value if a variable is final..
                 String fieldValue = (isFinal) ? field.getVariable(0).getInitializer().get().toString() : null;
 
+                // And then assigns those variables onto the class.
                 if(isFinal)
                 {
                     classes.get(className).addFinalClassVariable(variableName, variableType, variableAccessLevel,
@@ -105,28 +115,27 @@ public class JavaToUML
                 // Maybe process this information (association, composition, aggregation, etc.)
             });
 
-            // Extract methods
+            // This expression extracts methods from our classes
             classOrInterface.findAll(MethodDeclaration.class).forEach(method -> {
                 // Extract method information
                 String methodName = method.getNameAsString();
                 String returnType = method.getTypeAsString();
+                // Including static and abstract statuses
                 boolean isStatic = method.isStatic();
                 boolean isAbstractMethod = method.isAbstract();
                 String methodAccessLevel = method.getAccessSpecifier().asString();
                 ArrayList<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
 
-                // Extract parameters
+                // And then grabs the parameters of the method...
                 method.getParameters().forEach(parameter -> {
                     String parameterType = parameter.getType().asString();
                     String parameterName = parameter.getNameAsString();
-                    // Process parameter information
                     parameters.add(Pair.of(parameterType, parameterName));
                 });
-
+                // And assigns them to the class.
                 classes.get(className).addClassMethod(methodName, returnType, isStatic, isAbstractMethod,
                         methodAccessLevel, parameters);
 
-                // Maybe Process this information (association, composition, aggregation, etc.)
             });
         });
 
@@ -134,18 +143,20 @@ public class JavaToUML
         return classes;
     }
 
+    // Our main method addresses the running tasks.
     public static void main(String[] args) throws FileNotFoundException
     {
+        // TODO: Change this into a user input.
         File file = new File("C:\\Users\\aaaaa\\Documents\\Git\\School\\Software Engineering 1\\Project\\Java To UML\\Sample.java");
-
+        // TODO: Ensure file validity is checked, loop file selection if not.
         JavaParser javaParser = new JavaParser();
         ParseResult<CompilationUnit> result = javaParser.parse(file);
-
+        // TODO: Return output based on result above. If not valid, loop file picking.
 
         CompilationUnit cu = result.getResult().get();
 
         HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
-
+        // TODO: Once done debugging, remove this final line.
         int x = 0;
 
 
