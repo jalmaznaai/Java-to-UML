@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-// Very importantly, we are importing javaparser to be able to use its functionality.
+// Obviously, we are importing javaparser to be able to use its functionality.
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
@@ -16,7 +16,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ParseResult;
-// We also import apache commons' IO and general packages to get filename utilities and
+// We also import apache commons' IO and general packages in order to get filename utilities and
 // to be able to use a tuple pair data structure.
 import java.util.Scanner;
 import org.apache.commons.io.FilenameUtils;
@@ -35,7 +35,7 @@ public class JavaToUML
         return FilenameUtils.getExtension(file.getName()).equals("java");
     }
     // This boolean makes sure that our inputted java file is syntax correct.
-    // It does so by taking the result parameter of javaparser's output.
+    // It does so by taking the results parameter of javaparser's output.
     public static boolean hasCorrectSyntax(ParseResult<CompilationUnit> result)
     {
         return result.isSuccessful();
@@ -63,7 +63,7 @@ public class JavaToUML
     }
 
     // Get info represents the main way that we grab the information related to classes such as name, abstract status, etc.
-    // We store this info in a hashmap to be able to retrieve it easily later.
+    // We store this info in a hashmap in order to be able to retrieve it easily later.
     public static HashMap<String, ClassInfo> getInfo(CompilationUnit cu)
     {
         HashMap<String, ClassInfo> classes = new HashMap<String, ClassInfo>();
@@ -89,7 +89,7 @@ public class JavaToUML
                 classes.get(className).getClassRelations().put(type.getNameAsString(), "Implements");
             });
 
-            // This lambda expression then grabs all the information about the variables in a class...
+            // This lambda expression then grabs all of the information about the variables in a class...
             classOrInterface.findAll(FieldDeclaration.class).forEach(field -> {
                 // Extract variable information
                 String variableName = field.getVariable(0).getNameAsString();
@@ -157,7 +157,7 @@ public class JavaToUML
             String filepath = input.nextLine();
             file = new File(filepath);
             if (!fileExists(file)){
-                System.out.println("Oops, the file you entered doesn't exist. Please try again.");
+                System.out.println("Oops! The file you entered doesn't exist. Please try again.");
                 System.out.println();
             }
             else {
@@ -173,7 +173,6 @@ public class JavaToUML
                         CompilationUnit cu = result.getResult().get();
                         HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
                         int x = 0;
-                        System.out.println("Success, please find your file at FILEPATH PLACEHOLDER.");
                         fileinput = false;
                     }
                 }

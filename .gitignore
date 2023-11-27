@@ -27,3 +27,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/Output/
+/target/
+/target/classes/
+/target/classes/
+/target/classes/JavaToUML/
+/target/classes/WorkingSampleClasses/
