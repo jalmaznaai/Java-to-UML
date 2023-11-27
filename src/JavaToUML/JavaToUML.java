@@ -173,8 +173,8 @@ public class JavaToUML
                     else {
                         CompilationUnit cu = result.getResult().get();
                         HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
-                        int x = 0;
                         Visualizer.makeImage(classes);
+                        System.out.println("Success! Please find your completed UML diagram png in the output folder.");
                         fileinput = false;
                     }
                 }
