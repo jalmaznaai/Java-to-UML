@@ -1,5 +1,5 @@
 package JavaToUML;
-
+// This class handles the storage of variables and their relevant info.
 public class Variable
 {
     private String varName;

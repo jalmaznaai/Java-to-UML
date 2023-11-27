@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+// TODO: Add comments when complete.
 public class Visualizer
 {
     public static char parseAccessLevel(String al)
