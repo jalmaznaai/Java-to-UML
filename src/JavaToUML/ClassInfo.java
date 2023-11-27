@@ -4,9 +4,10 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+// This class handles the class info that is set and stored.
 public class ClassInfo
 {
+    // the variables here are fairly self explanatory.
     private String className;
     private boolean isAbstract;
     private boolean isInterface;
@@ -14,7 +15,7 @@ public class ClassInfo
     private ArrayList<Variable> classVariables;
     private HashMap<String, String> classRelations;
     private ArrayList<MethodInfo> methods;
-
+    // This method acts as a baseline for a class with info to be added.
     public ClassInfo(String className, boolean isAbstract, boolean isInterface, String accessLevel, ArrayList<Variable>
             classVariables, HashMap<String, String> classRelations, ArrayList<MethodInfo> methods)
     {
@@ -26,7 +27,7 @@ public class ClassInfo
         this.classRelations = classRelations;
         this.methods = methods;
     }
-
+    // This handles our main cases, as we want to be able to have the structures ready to insert data into.
     public ClassInfo(String className, boolean isAbstract, boolean isInterface, String accessLevel)
     {
         this.className = className;
@@ -37,7 +38,7 @@ public class ClassInfo
         this.classRelations = new HashMap<String, String>();
         this.methods = new ArrayList<MethodInfo>();
     }
-
+    // This is a default constructor.
     public ClassInfo()
     {
         this.className = "";
@@ -48,7 +49,7 @@ public class ClassInfo
         this.classRelations = new HashMap<String, String>();
         this.methods = new ArrayList<MethodInfo>();
     }
-
+    // Below are pretty much standard setters and getters for all the variables above.
     public String getClassName()
     {
         return className;
@@ -93,7 +94,6 @@ public class ClassInfo
     {
         return classVariables;
     }
-
     public void addClassVariable(String varName, String type, String accessLevel, boolean isStatic, boolean isFinal)
     {
         this.classVariables.add(new Variable(varName, type, accessLevel, isStatic, isFinal));

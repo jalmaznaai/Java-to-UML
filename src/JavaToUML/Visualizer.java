@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-
+// TODO: Add comments when complete.
 public class Visualizer
 {
     public static void makeImage(HashMap<String, ClassInfo> classes) throws IOException
