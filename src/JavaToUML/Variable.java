@@ -15,5 +15,55 @@ public class Variable
         this.isStatic = isStatic;
         this.isFinal = isFinal;
     }
+
+    public String getVarName()
+    {
+        return varName;
+    }
+
+    public void setVarName(String varName)
+    {
+        this.varName = varName;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
+    public String getAccessLevel()
+    {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(String accessLevel)
+    {
+        this.accessLevel = accessLevel;
+    }
+
+    public boolean isStatic()
+    {
+        return isStatic;
+    }
+
+    public void setStatic(boolean aStatic)
+    {
+        isStatic = aStatic;
+    }
+
+    public boolean isFinal()
+    {
+        return isFinal;
+    }
+
+    public void setFinal(boolean aFinal)
+    {
+        isFinal = aFinal;
+    }
 }
 

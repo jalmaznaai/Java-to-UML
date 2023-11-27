@@ -11,4 +11,24 @@ public class Parameter
         this.dataType = dataType;
         this.paramName = paramName;
     }
+
+    public String getDataType()
+    {
+        return dataType;
+    }
+
+    public void setDataType(String dataType)
+    {
+        this.dataType = dataType;
+    }
+
+    public String getParamName()
+    {
+        return paramName;
+    }
+
+    public void setParamName(String paramName)
+    {
+        this.paramName = paramName;
+    }
 }

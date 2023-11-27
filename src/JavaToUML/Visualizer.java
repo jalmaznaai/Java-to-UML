@@ -50,6 +50,30 @@ public class Visualizer
             return "abstract interface";
         }
     }
+
+    public static String parseIsStatic(boolean isStatic)
+    {
+        if(isStatic)
+        {
+            return "{static} ";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public static String parseIsAbstract(boolean isAbstract)
+    {
+        if(isAbstract)
+        {
+            return "{abstract} ";
+        }
+        else
+        {
+            return "";
+        }
+    }
     public static void makeImage(HashMap<String, ClassInfo> classes) throws IOException
     {
         LocalDateTime date = LocalDateTime.now();
@@ -89,23 +113,45 @@ public class Visualizer
 
             ArrayList<Variable> classVariables = currentClass.getClassVariables();
 
-            for(int i2 = 0; i < classVariables.size(); i++)
+            for(int i2 = 0; i2 < classVariables.size(); i2++)
             {
-
+                Variable currentVariable = classVariables.get(i2);
+                writer.write("\t");
+                writer.write(parseAccessLevel(currentVariable.getAccessLevel()));
+                writer.write(parseIsStatic(currentVariable.isStatic()));
+                writer.write(currentVariable.getType() + " ");
+                writer.write(currentVariable.getVarName());
+                writer.newLine();
             }
 
+            ArrayList<MethodInfo> classMethods = currentClass.getMethods();
+            for(int i2 = 0; i2 < classMethods.size(); i2++)
+            {
+                MethodInfo currentMethod = classMethods.get(i2);
+                writer.write("\t");
+                writer.write(parseAccessLevel(currentMethod.getAccessLevel()));
+                writer.write(parseIsStatic(currentMethod.isStatic()));
+                writer.write(parseIsAbstract(currentMethod.isAbstract()));
+                writer.write(currentMethod.getReturnType() + " ");
+                writer.write(currentMethod.getMethodName() + "(");
 
+                ArrayList<Parameter> methodParameters = currentMethod.getParameters();
+                for (int i3 = 0; i3 < methodParameters.size(); i3++)
+                {
+                    Parameter currentParam = methodParameters.get(i3);
+                    writer.write(currentParam.getDataType() + " " + currentParam.getParamName());
 
+                    if(i3 + 1 < methodParameters.size())
+                    {
+                        writer.write(", ");
+                    }
+                }
+                writer.write(")");
 
-
-
-
-
-
-
-
-
+                writer.newLine();
+            }
             writer.write("}");
+
             writer.newLine();
             writer.newLine();
         }

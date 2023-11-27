@@ -45,7 +45,62 @@ public class MethodInfo
         }
     }
 
-//    public MethodInfo(String methodName, String returnType, boolean isStatic, boolean isAbstract, String accessLevel)
+    public String getMethodName()
+    {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName)
+    {
+        this.methodName = methodName;
+    }
+
+    public String getReturnType()
+    {
+        return returnType;
+    }
+
+    public void setReturnType(String returnType)
+    {
+        this.returnType = returnType;
+    }
+
+    public boolean isStatic()
+    {
+        return isStatic;
+    }
+
+    public void setStatic(boolean aStatic)
+    {
+        isStatic = aStatic;
+    }
+
+    public boolean isAbstract()
+    {
+        return isAbstract;
+    }
+
+    public void setAbstract(boolean anAbstract)
+    {
+        isAbstract = anAbstract;
+    }
+
+    public String getAccessLevel()
+    {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(String accessLevel)
+    {
+        this.accessLevel = accessLevel;
+    }
+
+    public ArrayList<Parameter> getParameters()
+    {
+        return parameters;
+    }
+
+    //    public MethodInfo(String methodName, String returnType, boolean isStatic, boolean isAbstract, String accessLevel)
 //    {
 //        this.methodName = methodName;
 //        this.returnType = returnType;

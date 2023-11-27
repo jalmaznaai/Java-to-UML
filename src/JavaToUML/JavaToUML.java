@@ -4,6 +4,7 @@ package JavaToUML;
 // syntax-correct java file, and then using javaparser to parse the code into AST.
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 // Obviously, we are importing javaparser to be able to use its functionality.
@@ -145,7 +146,7 @@ public class JavaToUML
     }
 
     // Our main method addresses the running tasks.
-    public static void main(String[] args) throws FileNotFoundException
+    public static void main(String[] args) throws IOException
     {
         /* TODO: Since full main functionality is not yet complete, finish main comments when functionality is complete */
         boolean fileinput = true;
@@ -173,6 +174,7 @@ public class JavaToUML
                         CompilationUnit cu = result.getResult().get();
                         HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
                         int x = 0;
+                        Visualizer.makeImage(classes);
                         fileinput = false;
                     }
                 }
