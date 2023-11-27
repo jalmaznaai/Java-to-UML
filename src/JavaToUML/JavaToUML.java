@@ -18,6 +18,7 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ParseResult;
 // We also import apache commons' IO and general packages in order to get filename utilities and
 // to be able to use a tuple pair data structure.
+import java.util.Scanner;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -35,7 +36,7 @@ public class JavaToUML
     }
     // This boolean makes sure that our inputted java file is syntax correct.
     // It does so by taking the results parameter of javaparser's output.
-    public boolean hasCorrectSyntax(ParseResult<CompilationUnit> result)
+    public static boolean hasCorrectSyntax(ParseResult<CompilationUnit> result)
     {
         return result.isSuccessful();
     }
@@ -146,18 +147,39 @@ public class JavaToUML
     // Our main method addresses the running tasks.
     public static void main(String[] args) throws FileNotFoundException
     {
-        // TODO: Change this into a user input.
-        File file = new File("C:\\Users\\aaaaa\\Documents\\Git\\School\\Software Engineering 1\\Project\\Java To UML\\Sample.java");
-        // TODO: Ensure file validity is checked, loop file selection if not.
+        /* TODO: Since full main functionality is not yet complete, finish main comments when functionality is complete */
+        boolean fileinput = true;
+        File file;
+        Scanner input = new Scanner(System.in);
         JavaParser javaParser = new JavaParser();
-        ParseResult<CompilationUnit> result = javaParser.parse(file);
-        // TODO: Return output based on result above. If not valid, loop file picking.
+        while (fileinput) {
+            System.out.println("Welcome, please input the absolute file path of the java file you wish to convert to a UML diagram:");
+            String filepath = input.nextLine();
+            file = new File(filepath);
+            if (!fileExists(file)){
+                System.out.println("Oops! The file you entered doesn't exist. Please try again.");
+                System.out.println();
+            }
+            else {
+                if (!isJavaFile(file)){
+                    System.out.println("Oops, the file entered is not a java file. Please try again.");
+                }
+                else {
+                    ParseResult<CompilationUnit> result = javaParser.parse(file);
+                    if (!hasCorrectSyntax(result)){
+                        System.out.println("Oops, the file entered has syntax errors. Please fix them and try again.");
+                    }
+                    else {
+                        CompilationUnit cu = result.getResult().get();
+                        HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
+                        int x = 0;
+                        fileinput = false;
+                    }
+                }
+            }
+        }
 
-        CompilationUnit cu = result.getResult().get();
 
-        HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
-        // TODO: Once done debugging, remove this final line.
-        int x = 0;
 
 
 
