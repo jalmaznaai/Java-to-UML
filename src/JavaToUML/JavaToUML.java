@@ -148,32 +148,43 @@ public class JavaToUML
     // Our main method addresses the running tasks.
     public static void main(String[] args) throws IOException
     {
-        /* TODO: Since full main functionality is not yet complete, finish main comments when functionality is complete */
+        // We set a boolean to ensure that we can keep accepting input until the user gives a valid input.
         boolean fileinput = true;
+        // We also establish our file, input, and javaparser objects.
         File file;
         Scanner input = new Scanner(System.in);
         JavaParser javaParser = new JavaParser();
+        // While user input is being accepted, we check the following conditions.
         while (fileinput) {
+            // First, we prompt the user for input.
             System.out.println("Welcome, please input the absolute file path of the java file you wish to convert to a UML diagram:");
             String filepath = input.nextLine();
             file = new File(filepath);
+            // If the user inputs a directory or if a file doesn't exist, we present an error as such and tell the user to try again
             if (!fileExists(file)){
                 System.out.println("Oops! The file you entered doesn't exist. Please try again.");
                 System.out.println();
             }
             else {
+                // Otherwise we check if the file is a java file, if not then try again
                 if (!isJavaFile(file)){
                     System.out.println("Oops, the file entered is not a java file. Please try again.");
                 }
                 else {
+                    // If it is a java file, we make sure it is syntax correct, otherwise user will try again
                     ParseResult<CompilationUnit> result = javaParser.parse(file);
                     if (!hasCorrectSyntax(result)){
                         System.out.println("Oops, the file entered has syntax errors. Please fix them and try again.");
                     }
+                    // Provided everything works correctly...
                     else {
+                        // We create our compilation unit for javaparser...
                         CompilationUnit cu = result.getResult().get();
+                        // Put the info into a hashmap...
                         HashMap<String, ClassInfo> classes = JavaToUML.getInfo(cu);
+                        // and make our UML image based on that hashmap...
                         Visualizer.makeImage(classes);
+                        // and inform the user their png has been generated.
                         System.out.println("Success! Please find your completed UML diagram png in the output folder.");
                         fileinput = false;
                     }
