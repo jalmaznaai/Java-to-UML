@@ -7,9 +7,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,21 +15,22 @@ import java.util.List;
 // TODO: Add comments when complete.
 public class Visualizer
 {
+    private static String fileName;
+
+    public static String getFileName()
+    {
+        return fileName;
+    }
     public static char parseAccessLevel(String al)
     {
-        switch(al)
+        return switch (al)
         {
-            case "private":
-                return '-';
-            case "protected":
-                return '#';
-            case "":
-                return '~';
-            case "public":
-                return '+';
-            default:
-                return '!';
-        }
+            case "private" -> '-';
+            case "protected" -> '#';
+            case "" -> '~';
+            case "public" -> '+';
+            default -> '!';
+        };
     }
 
     public static String parseClassType(boolean isAbstract, boolean isInterface)
@@ -80,22 +79,13 @@ public class Visualizer
 
     public static String parseRelation(String relation)
     {
-        if(relation.equals("Implements"))
+        return switch (relation)
         {
-            return " -[dashed]-|> ";
-        }
-        else if(relation.equals("Extends"))
-        {
-            return " --|> ";
-        }
-        else if(relation.equals("Is Associated By"))
-        {
-            return " <-- ";
-        }
-        else
-        {
-            return "";
-        }
+            case "Implements" -> " -[dashed]-|> ";
+            case "Extends" -> " --|> ";
+            case "Is Associated By" -> " <-- ";
+            default -> "";
+        };
     }
 
     public static void addAssociations(ArrayList<Relation> relations, ArrayList<String> classes, String targetClass)
@@ -118,7 +108,7 @@ public class Visualizer
         int second = date.getSecond();
 
 
-        String fileName = String.format("%02d_%02d_%02d_%02d_%02d", month, day, hour, minute, second);
+        fileName = String.format("%02d_%02d_%02d_%02d_%02d", month, day, hour, minute, second);
 
         File directory = new File("Output");
         if(!directory.exists())
