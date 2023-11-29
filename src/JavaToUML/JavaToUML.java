@@ -185,8 +185,8 @@ public class JavaToUML
                         // and make our UML image based on that hashmap...
                         Visualizer.makeImage(classes);
                         // and inform the user their png has been generated.
-                        System.out.println("Success! Please find your completed UML diagram png in the output folder.");
-//                        System.out.println(Visualizer.getFileName() + ".png has been created in the Output folder.");
+//                        System.out.println("Success! Please find your completed UML diagram png in the output folder.");
+                        System.out.println(Visualizer.getFileName() + ".png has been created in the Output folder.");
                         fileinput = false;
                     }
                 }
