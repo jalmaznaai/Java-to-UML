@@ -2,7 +2,7 @@ package JavaToUML;
 // This class helps establish the use of final variables in our code.
 public class FinalVariable extends Variable
 {
-    // An important feature of the final variable is it's final value.
+    // An important feature of the final variable is its final value.
     private String finalValue;
 
 

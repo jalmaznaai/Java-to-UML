@@ -99,19 +99,4 @@ public class MethodInfo
     {
         return parameters;
     }
-
-    //    public MethodInfo(String methodName, String returnType, boolean isStatic, boolean isAbstract, String accessLevel)
-//    {
-//        this.methodName = methodName;
-//        this.returnType = returnType;
-//        this.isStatic = isStatic;
-//        this.isAbstract = isAbstract;
-//        this.accessLevel = accessLevel;
-//        this.parameters = new ArrayList<Parameter>();
-//    }
-//
-//    public void addNewParameter(String dataType, String paramName)
-//    {
-//        this.parameters.add(new Parameter(dataType, paramName));
-//    }
 }
